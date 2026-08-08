@@ -7,6 +7,7 @@ const QUEUE_URL = process.env.SQS_BOOKING_QUEUE_URL;
 const processMessage = async (message) => {
   const body = JSON.parse(message.Body);
   if (body.type !== 'BOOKING_CONFIRMED') return;
+  console.log(body);
 
   const { userEmail, userName, tourName, price } = body.data;
   const firstName = userName ? userName.split(' ')[0] : 'there';

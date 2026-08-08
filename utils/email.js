@@ -1,4 +1,4 @@
-const nodemailer = require('nodemailer');
+const nodemailer = require("nodemailer");
 
 class Email {
   constructor(to, firstName, url) {
@@ -9,17 +9,23 @@ class Email {
   }
 
   newTransport() {
-    if (process.env.NODE_ENV === 'production') {
+    if (process.env.NODE_ENV === "production") {
       return nodemailer.createTransport({
         secure: true,
-        service: 'gmail',
-        auth: { user: process.env.GMAIL_USER, pass: process.env.GMAIL_PASSWORD },
+        service: "gmail",
+        auth: {
+          user: process.env.GMAIL_USER,
+          pass: process.env.GMAIL_PASSWORD,
+        },
       });
     }
     return nodemailer.createTransport({
       host: process.env.EMAIL_HOST,
       port: process.env.EMAIL_PORT,
-      auth: { user: process.env.EMAIL_USERNAME, pass: process.env.EMAIL_PASSWORD },
+      auth: {
+        user: process.env.EMAIL_USERNAME,
+        pass: process.env.EMAIL_PASSWORD,
+      },
     });
   }
 
@@ -29,7 +35,7 @@ class Email {
       to: this.to,
       subject,
       html,
-      text: html.replace(/<[^>]*>/g, ''),
+      text: html.replace(/<[^>]*>/g, ""),
     });
   }
 
@@ -45,7 +51,7 @@ class Email {
           <a href="${this.url}" style="display:inline-block;background:#55c57a;color:#fff;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:16px;font-weight:700;text-transform:uppercase;margin-bottom:20px">Get started</a>
         </div>
       </div>`;
-    await this.send('Welcome to the Natours Family!', html);
+    await this.send("Welcome to the Natours Family!", html);
   }
 
   async sendPasswordReset() {
@@ -61,7 +67,7 @@ class Email {
           <p style="font-size:14px;color:#999;margin-top:30px">If you didn't request this, please ignore this email.</p>
         </div>
       </div>`;
-    await this.send('Your password reset token (valid for 10 minutes)', html);
+    await this.send("Your password reset token (valid for 10 minutes)", html);
   }
 
   async sendBookingConfirmation(tourName, price) {
@@ -77,7 +83,7 @@ class Email {
           <a href="${this.url}" style="display:inline-block;background:#55c57a;color:#fff;padding:14px 30px;border-radius:100px;text-decoration:none;font-size:16px;font-weight:700;text-transform:uppercase;margin-bottom:20px">View my bookings</a>
         </div>
       </div>`;
-    await this.send('Your Natours booking is confirmed!', html);
+    await this.send("Your Natours booking is confirmed!", html);
   }
 }
 
